@@ -11,6 +11,7 @@ def run_login():
     username = os.environ.get("GH_USERNAME")
     password = os.environ.get("GH_PASSWORD")
     totp_secret = os.environ.get("GH_2FA_SECRET")
+    target_zone_login_url = os.environ.get("CLAW_ZONE_LOGIN_URL") or "https://ap-northeast-1.run.claw.cloud/"
 
     if not username or not password:
         print("❌ 错误: 必须设置 GH_USERNAME 和 GH_PASSWORD 环境变量。")
@@ -25,7 +26,7 @@ def run_login():
         page = context.new_page()
 
         # 2. 访问 ClawCloud 登录页
-        target_url = "https://ap-northeast-1.run.claw.cloud/"
+        target_url = target_zone_login_url
         print(f"🌐 [Step 2] 正在访问: {target_url}")
         page.goto(target_url)
         page.wait_for_load_state("networkidle")
