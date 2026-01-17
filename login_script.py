@@ -21,8 +21,16 @@ def run_login():
     with sync_playwright() as p:
         # 启动浏览器 (headless=True 表示无头模式，适合服务器运行)
         browser = p.chromium.launch(headless=True)
-        # 设置大一点的分辨率，避免页面布局错乱
-        context = browser.new_context(viewport={'width': 1920, 'height': 1080})
+        # 设置更多浏览器上下文信息 (User-Agent, Locale, Timezone, etc.)
+        context = browser.new_context(
+            viewport={'width': 1920, 'height': 1080},
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+            locale="en-US",
+            timezone_id="America/Los_Angeles",
+            permissions=["geolocation"],
+            geolocation={"latitude": 34.0522, "longitude": -118.2437},
+            ignore_https_errors=True
+        )
         page = context.new_page()
 
         # 2. 访问 ClawCloud 登录页
